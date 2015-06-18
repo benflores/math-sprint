@@ -11,7 +11,12 @@
     <body>
         <div class="math-sprint-example">
             <div class="math-sprint-question">
+                <div id="pre-equation">if&nbsp;</div>
                 <div id="equation"></div>
+                <br/>
+                <div id="pre-expression">what is the value of&nbsp;</div>
+                <div id="expression"></div>
+                <div id="post-expression">&nbsp;?</div>
             </div>
 
             <form id="answer-submit" action="javascript:console.log()">
@@ -180,11 +185,13 @@
                 
 
                 if ( displayOrder == 1 ) {
-                    $( "#equation" ).html( "if " + questionEquation + " = " + equationValueY + "," + '<br/>' + " what is the value of " + questionExpression + "  ?").show();
+                    $( "#equation" ).html( questionEquation + " = " + equationValueY + ",").show();
+                    $( "#expression" ).html( questionExpression).show();
                 }
 
                 else {
-                    $( "#equation" ).html( "if " + equationValueY + " = " + questionEquation + "," +  '<br/>' + " what is the value of " + questionExpression + "  ?").show();
+                    $( "#equation" ).html( equationValueY + " = " + questionEquation + ",").show();
+                    $( "#expression" ).html( questionExpression).show();
                 }
             };
 
