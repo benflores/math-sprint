@@ -6,35 +6,51 @@
 
 .math-sprint-response {
 
-    margin-top: 1%;
+    margin-top: 3%;
+}
+
+.answer-choice-row {
+    text-align: center;
+}
+
+.answer-choices {
+    background-color: #ffffff;
+    border-color: black;
+    border-radius: 10%;
+    border-style: solid;
+    border-width: .1em;
+    box-shadow: none;
+    text-shadow: none;
+    font-family: Courier;
+    font-size: 1em;
+    width: 4em;
+    height: 2em;
+}
+
+.choice-response {
+
+    margin-top: .5em;
+}
+
+.selected {
+
+    background-color: #e6e6e6;
 }
 
 #equation {
 
-    margin-top: 15%;
+    margin-top: 10%;
     font-size: 2em;
-}
-
-#question {
-
-    margin-top: 1%;
-}
-
-#answer-form {
-
-    margin-top: 1%;
-
+    line-height: 1.4em;
 }
 
 #answer-submit {
 
-    margin-top: 1%;
+    margin-top: 3%;
 
 }
 
 #next-question {
 
-    margin-top: 1%;
+    margin-top: 2%;
 }
-
-

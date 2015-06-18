@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8" /> 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        
         <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
         <title>math sprint</title>
     </head>
@@ -10,84 +11,195 @@
     <body>
         <div class="math-sprint-example">
             <div class="math-sprint-question">
-                <div id="equation">this is where a question should go</div>
-                <div id="question"></div>
+                <div id="equation">this is where an equation should go</div>
             </div>
+
             <form id="answer-submit" action="javascript:console.log()">
-                <input id="answer-field" type="text" />
-                <input type="submit" value="submit answer" />
+                <div class="answer-choice-row">
+                    <input class="answer-choices" id="answer-a" name="answer-choice-button" type="submit" value=""/>
+                    <input class="answer-choices" id="answer-b" name="answer-choice-button" type="submit" value=""/>
+                    <input class="answer-choices" id="answer-c" name="answer-choice-button" type="submit" value=""/>
+                    <input class="answer-choices" id="answer-d" name="answer-choice-button" type="submit" value=""/>
+                </div>
             </form>
+
             <div class="math-sprint-response">
                 <div id="user-answer"></div>
-                <div id="incorrect-chosen" visibility: hidden></div>
-                <div id="correct-chosen" visibility: hidden></div>
+                <div class="choice-response" id="incorrect-chosen" visibility: hidden></div>
+                <div class="choice-response" id="correct-chosen" visibility: hidden></div>
+
                 <form id="next-question" action="javascript:console.log()" visibility: hidden>
                     <input id="get-next-question" type="submit" value="next question" />
                 </form>
             </div>
+
         </div>
 
         <script>
+            function shuffle(array) {
+                // http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+                var counter = array.length, temp, index;
+                while (counter > 0) {
+                    index = Math.floor(Math.random() * counter);
+                    counter--;
+                    temp = array[counter];
+                    array[counter] = array[index];
+                    array[index] = temp;
+                }
+                return array;
+            };
 
-            function generateQuestion() {
-                var setNumberX = Math.floor(Math.random() * (21)) - 10;
-                var setNumberY = Math.floor(Math.random() * (21)) - 10;
-                var correctAnswer = setNumberY - setNumberX;
-                return [correctAnswer, setNumberX, setNumberY];
+            function generateEquation() {
+                var setRandomX = Math.floor(Math.random() * (21)) - 10;
+                var setRandomY = Math.floor(Math.random() * (21)) - 10;
+                return [setRandomX, setRandomY];
+            };
+
+            function generateExpression() {
+                var setRandomX = Math.floor(Math.random() * (11)) - 5;
+                var setRandomY = Math.floor(Math.random() * (11)) - 5;
+                if ( setRandomX == 0 ) {
+                    setRandomX = 1;
+                }
+                return [setRandomX, setRandomY];
+            };
+
+            function chooseWrongVariableValue() {
+                var wrongVariableValue = Math.floor(Math.random() * (3)) - 0;
+                return wrongVariableValue;
+            }
+
+            function generateAnswerChoices(equationValueX, equationValueY, expressionValueX, expressionValueY) {
+                var correctVariableValue = equationValueY - equationValueX;
+
+                
+                var wrongVariableValue1 = equationValueX + equationValueY;
+                var wrongVariableValue2 = correctVariableValue * (-1);
+                var wrongVariableValue3 = wrongVariableValue1 * (-1);
+
+                var wrongVariableValues = [wrongVariableValue1, wrongVariableValue2, wrongVariableValue3];
+
+
+                var firstWrongVariableValueChoice = chooseWrongVariableValue();
+                var nextWrongVariableValueChoice = chooseWrongVariableValue();
+                var lastWrongVariableValueChoice = chooseWrongVariableValue();
+
+                var choice1 = (wrongVariableValues[firstWrongVariableValueChoice] * expressionValueX) + expressionValueY;
+                var choice2 = (wrongVariableValues[nextWrongVariableValueChoice] * expressionValueX) + expressionValueY;
+                var choice3 = lastWrongVariableValueChoice;
+
+                var correctAnswer = (expressionValueX * correctVariableValue) + expressionValueY;
+
+                return [correctAnswer, choice1, choice2, choice3];
             };
 
             function displayQuestion() {
-                var questionAnswerPair = generateQuestion();
-                correctAnswer = questionAnswerPair[0];
-                var questionValueX = questionAnswerPair[1];
-                var questionValueY = questionAnswerPair[2];
-                questionVariable = String.fromCharCode(Math.floor(Math.random() * (26)) + 97);
-                var expressionOrder = Math.floor(Math.random() * (2)) - 1;
-                var equationOrder = Math.floor(Math.random() * (2)) - 1;
+                var equationValues = generateEquation();
+                var expressionValues = generateExpression();
 
-                if ( expressionOrder == 1 ) {
-                    if ( questionValueX > 0 ) {
-                        var expression = questionVariable + " + " + questionValueX
+                var equationValueX = equationValues[0];
+                var equationValueY = equationValues[1];
+
+                var expressionValueX = expressionValues[0];
+                var expressionValueY = expressionValues[1];
+
+                var answerChoices = generateAnswerChoices(equationValueX, equationValueY, expressionValueX, expressionValueY);
+
+
+                correctAnswer = answerChoices[0];
+
+                var testAnswers = [answerChoices[0], answerChoices[1], answerChoices[2], answerChoices[3]];
+
+                var shuffledArray = shuffle(testAnswers);
+
+                $( "#answer-a" ).val( shuffledArray[0] );
+                $( "#answer-b" ).val( shuffledArray[1] );
+                $( "#answer-c" ).val( shuffledArray[2] );
+                $( "#answer-d" ).val( shuffledArray[3] );
+                
+                questionVariable = String.fromCharCode(Math.floor(Math.random() * (26)) + 97);
+
+                var equationOrder = Math.floor(Math.random() * (2)) - 1;
+                var displayOrder = Math.floor(Math.random() * (2)) - 1;
+
+                if ( equationOrder == 1 ) {
+                    if ( equationValueX > 0 ) {
+                        var questionEquation = questionVariable + " + " + equationValueX
                     }
-                    else if ( questionValueX < 0 ) {
-                        var expression = questionVariable + " - " + Math.abs(questionValueX)
+                    else if ( equationValueX < 0 ) {
+                        var questionEquation = questionVariable + " - " + Math.abs(equationValueX)
                     }
                     else {
-                        var expression = questionVariable
+                        var questionEquation = questionVariable
                     }
                 }
                 else {
-                    if ( questionValueX == 0 ) {
-                        var expression = questionVariable
+                    if ( equationValueX == 0 ) {
+                        var questionEquation = questionVariable
                         
                     }
                     else {
-                        var expression = questionValueX + " + " + questionVariable
+                        var questionEquation = equationValueX + " + " + questionVariable
                     }
                 }
 
-                if ( equationOrder == 1 ) {
-                    $( "#equation" ).text( expression + " = " + questionValueY).show();
+                if ( expressionValueX == 1 ) {
+                    if ( expressionValueY > 0) {
+                        var questionExpression = questionVariable + " + " + expressionValueY;
+                    }
+                    else if ( expressionValueY < 0) {
+                        var questionExpression = questionVariable + " - " + Math.abs(expressionValueY);
+                    }
+                    else {
+                        var questionExpression = questionVariable;
+                    }
+                }
+                else if ( expressionValueX == (-1) ) {
+                    if ( expressionValueY > 0) {
+                        var questionExpression = "-" + questionVariable + " + " + expressionValueY;
+                    }
+                    else if ( expressionValueY < 0) {
+                        var questionExpression = "-" + questionVariable + " - " + Math.abs(expressionValueY);
+                    }
+                    else {
+                        var questionExpression = "-" + questionVariable;
+                    }
+                }
+                else {
+                    if ( expressionValueY > 0) {
+                        var questionExpression = expressionValueX + questionVariable + " + " + expressionValueY;
+                    }
+                    else if ( expressionValueY < 0) {
+                        var questionExpression = expressionValueX + questionVariable + " - " + Math.abs(expressionValueY);
+                    }
+                    else {
+                        var questionExpression = expressionValueX + questionVariable;
+                    }
+                }
+                
+
+                if ( displayOrder == 1 ) {
+                    $( "#equation" ).html( "if " + questionEquation + " = " + equationValueY + "," + '<br/>' + " what is the value of " + questionExpression + "  ?").show();
                 }
 
                 else {
-                    $( "#equation" ).text( questionValueY + " = " + expression).show();
+                    $( "#equation" ).html( "if " + equationValueY + " = " + questionEquation + "," +  '<br/>' + " what is the value of " + questionExpression + "  ?").show();
                 }
-
-                $( "#question" ).text( "solve for " + questionVariable ).show();
             };
 
             displayQuestion();
             
-            $( "#answer-submit" ).submit(function () {
-                if ( $( "#answer-field" ).val() == correctAnswer ) {
-                    $( "#correct-chosen" ).text( questionVariable + " = " + correctAnswer + " is the correct answer!").show();
+            $( ".answer-choices" ).on('click', function () {
+                var chosenAnswer = $(this).val();
+                $( this ).addClass( "selected" );
+                if ( chosenAnswer == correctAnswer ) {
+                    $( "#correct-chosen" ).text( correctAnswer + " is the correct answer!").fadeIn(200);
                 }
                 else {
-                   $( "#incorrect-chosen" ).text( questionVariable + " = " + $( "#answer-field" ).val() + " is not the correct answer.").show(); 
-                   $( "#correct-chosen" ).text( questionVariable + " = " + correctAnswer + " is the correct answer.").show();
+                   $( "#incorrect-chosen" ).text( chosenAnswer + " is not the correct answer.").fadeIn(200); 
+                   $( "#correct-chosen" ).text( correctAnswer + " is the correct answer.").fadeIn(200);
                 }
-                $( "#next-question" ).show();
+                $( "#next-question" ).fadeIn(200);
                 return;
             });
 
@@ -95,15 +207,15 @@
                 $( "#incorrect-chosen" ).fadeOut();
                 $( "#correct-chosen" ).fadeOut();
                 $( "#answer-field" ).val("");
-                $( ".math-sprint-question" ).fadeOut().promise().done(function () {
+                $( ".answer-choices" ).removeClass( "selected" );
+                $( "#equation" ).fadeOut().promise().done(function () {
                     displayQuestion();
-                    $( ".math-sprint-question" ).fadeIn();
-
+                    $( "#equation" ).show();
                 });
                 $( "#next-question" ).hide();
                 return;
             }); 
+
         </script>
     </body>
-
 </html>
