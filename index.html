@@ -82,7 +82,6 @@
 
                 var wrongVariableValues = [wrongVariableValue1, wrongVariableValue2, wrongVariableValue3];
 
-
                 var firstWrongVariableValueChoice = chooseWrongVariableValue();
                 var nextWrongVariableValueChoice = chooseWrongVariableValue();
                 var lastWrongVariableValueChoice = chooseWrongVariableValue();
@@ -96,34 +95,10 @@
                 return [correctAnswer, choice1, choice2, choice3];
             };
 
-            function displayQuestion() {
-                var equationValues = generateEquation();
-                var expressionValues = generateExpression();
-
-                var equationValueX = equationValues[0];
-                var equationValueY = equationValues[1];
-
-                var expressionValueX = expressionValues[0];
-                var expressionValueY = expressionValues[1];
-
-                var answerChoices = generateAnswerChoices(equationValueX, equationValueY, expressionValueX, expressionValueY);
-
-
-                correctAnswer = answerChoices[0];
-
-                var testAnswers = [answerChoices[0], answerChoices[1], answerChoices[2], answerChoices[3]];
-
-                var shuffledArray = shuffle(testAnswers);
-
-                $( "#answer-a" ).val( shuffledArray[0] );
-                $( "#answer-b" ).val( shuffledArray[1] );
-                $( "#answer-c" ).val( shuffledArray[2] );
-                $( "#answer-d" ).val( shuffledArray[3] );
-                
+            function createQuestionDisplay(equationValueX, equationValueY, expressionValueX, expressionValueY) {
                 questionVariable = String.fromCharCode(Math.floor(Math.random() * (26)) + 97);
 
                 var equationOrder = Math.floor(Math.random() * (2)) - 1;
-                var displayOrder = Math.floor(Math.random() * (2)) - 1;
 
                 if ( equationOrder == 1 ) {
                     if ( equationValueX > 0 ) {
@@ -179,7 +154,36 @@
                         var questionExpression = expressionValueX + questionVariable;
                     }
                 }
-                
+
+                return [questionEquation, questionExpression];
+            };
+
+            function displayQuestion() {
+                var equationValues = generateEquation();
+                var equationValueX = equationValues[0];
+                var equationValueY = equationValues[1];
+
+                var expressionValues = generateExpression();
+                var expressionValueX = expressionValues[0];
+                var expressionValueY = expressionValues[1];
+
+                var answerChoices = generateAnswerChoices(equationValueX, equationValueY, expressionValueX, expressionValueY);
+
+                correctAnswer = answerChoices[0];
+
+                var testAnswers = [answerChoices[0], answerChoices[1], answerChoices[2], answerChoices[3]];
+                var shuffledArray = shuffle(testAnswers);
+                $( "#answer-a" ).val( shuffledArray[0] );
+                $( "#answer-b" ).val( shuffledArray[1] );
+                $( "#answer-c" ).val( shuffledArray[2] );
+                $( "#answer-d" ).val( shuffledArray[3] );
+
+                var questionEquationExpression = createQuestionDisplay(equationValueX, equationValueY, expressionValueX, expressionValueY);
+
+                var questionEquation = questionEquationExpression[0];
+                var questionExpression = questionEquationExpression[1];
+
+                var displayOrder = Math.floor(Math.random() * (2)) - 1;
 
                 if ( displayOrder == 1 ) {
                     $( "#equation" ).html( questionEquation + " = " + equationValueY + ",").show();
