@@ -9,11 +9,8 @@ body {
     margin-top: 3%;
 }
 
-.answer-choice-row {
-    text-align: center;
-}
-
 .answer-choices {
+
     background-color: #ffffff;
     border-color: black;
     border-radius: 10%;
@@ -27,6 +24,11 @@ body {
     height: 2em;
 }
 
+.answer-choice-row {
+
+    text-align: center;
+}
+
 .choice-response {
 
     margin-top: .5em;
@@ -38,6 +40,7 @@ body {
 }
 
 #pre-equation {
+
     margin-top: 10%;
     font-size: 1.5em;
     line-height: 1.4em;
@@ -93,6 +96,7 @@ body {
 }
 
 #get-next-question {
+
     background-color: #ffffff;
     border-color: black;
     border-radius: 5%;
