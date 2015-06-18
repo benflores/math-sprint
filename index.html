@@ -9,35 +9,32 @@
     </head>
 
     <body>
-        <div class="math-sprint-example">
-            <div class="math-sprint-question">
-                <div id="pre-equation">if&nbsp;</div>
-                <div id="equation"></div>
-                <br/>
-                <div id="pre-expression">what is the value of&nbsp;</div>
-                <div id="expression"></div>
-                <div id="post-expression">&nbsp;?</div>
-            </div>
+        <div class="math-sprint-question">
+            <div id="pre-equation">if&nbsp;</div>
+            <div id="equation"></div>
+            <br/>
+            <div id="pre-expression">what is the value of&nbsp;</div>
+            <div id="expression"></div>
+            <div id="post-expression">&nbsp;?</div>
+        </div>
 
-            <form id="answer-submit" action="javascript:console.log()">
-                <div class="answer-choice-row">
-                    <input class="answer-choices" id="answer-a" name="answer-choice-button" type="submit" value=""/>
-                    <input class="answer-choices" id="answer-b" name="answer-choice-button" type="submit" value=""/>
-                    <input class="answer-choices" id="answer-c" name="answer-choice-button" type="submit" value=""/>
-                    <input class="answer-choices" id="answer-d" name="answer-choice-button" type="submit" value=""/>
-                </div>
+        <form id="answer-submit" action="javascript:console.log()">
+            <div class="answer-choice-row">
+                <input class="answer-choices" id="answer-a" name="answer-choice-button" type="submit" value=""/>
+                <input class="answer-choices" id="answer-b" name="answer-choice-button" type="submit" value=""/>
+                <input class="answer-choices" id="answer-c" name="answer-choice-button" type="submit" value=""/>
+                <input class="answer-choices" id="answer-d" name="answer-choice-button" type="submit" value=""/>
+            </div>
+        </form>
+
+        <div class="math-sprint-response">
+            <div id="user-answer"></div>
+            <div class="choice-response" id="incorrect-chosen" visibility: hidden></div>
+            <div class="choice-response" id="correct-chosen" visibility: hidden></div>
+
+            <form id="next-question" action="javascript:console.log()" visibility: hidden>
+                <input id="get-next-question" type="submit" value="next question" />
             </form>
-
-            <div class="math-sprint-response">
-                <div id="user-answer"></div>
-                <div class="choice-response" id="incorrect-chosen" visibility: hidden></div>
-                <div class="choice-response" id="correct-chosen" visibility: hidden></div>
-
-                <form id="next-question" action="javascript:console.log()" visibility: hidden>
-                    <input id="get-next-question" type="submit" value="next question" />
-                </form>
-            </div>
-
         </div>
 
         <script>
@@ -212,13 +209,13 @@
             });
 
             $( "#next-question" ).submit(function () {
-                $( "#incorrect-chosen" ).fadeOut();
-                $( "#correct-chosen" ).fadeOut();
+                $( "#incorrect-chosen" ).fadeOut(300);
+                $( "#correct-chosen" ).fadeOut(300);
                 $( "#answer-field" ).val("");
                 $( ".answer-choices" ).removeClass( "selected" );
-                $( "#equation" ).fadeOut().promise().done(function () {
+                $( ".math-sprint-question" ).fadeOut(300).promise().done(function () {
                     displayQuestion();
-                    $( "#equation" ).show();
+                    $( ".math-sprint-question" ).fadeIn(200);
                 });
                 $( "#next-question" ).hide();
                 return;
