@@ -1,4 +1,4 @@
-.math-sprint-example {
+body {
 
     font-family: Courier;
     text-align: center;
@@ -6,27 +6,108 @@
 
 .math-sprint-response {
 
-    margin-top: 1%;
+    margin-top: 3%;
+}
+
+.answer-choices {
+
+    background-color: #ffffff;
+    border-color: black;
+    border-radius: 10%;
+    border-style: solid;
+    border-width: .1em;
+    box-shadow: none;
+    text-shadow: none;
+    font-family: Courier;
+    font-size: 1em;
+    width: 4em;
+    height: 2em;
+}
+
+.answer-choice-row {
+
+    text-align: center;
+}
+
+.choice-response {
+
+    margin-top: .5em;
+}
+
+.selected {
+
+    background-color: #e6e6e6;
+}
+
+#pre-equation {
+
+    margin-top: 10%;
+    font-size: 1.5em;
+    line-height: 1.4em;
+    display: inline-block;
 }
 
 #equation {
 
-    margin-top: 15%;
+    margin-top: 10%;
+    font-family: "Computer-Modern", "Tex", serif;
     font-size: 2em;
+    font-style: italic;
+    line-height: 1.4em;
+    display: inline-block;
 }
 
-#question {
+#pre-expression {
 
     margin-top: 1%;
+    font-size: 1.5em;
+    line-height: 1.4em;
+    display: inline-block;
+}
+
+#expression {
+
+    margin-top: 1%;
+    font-family: "Computer-Modern", "Tex", serif;
+    font-size: 2em;
+    font-style: italic;
+    line-height: 1.4em;
+    display: inline-block;
+}
+
+#post-expression {
+
+    margin-top: 1%;
+    font-family: Courier;
+    font-size: 2em;
+    line-height: 1.4em;
+    display: inline-block;
 }
 
 #answer-submit {
 
-    margin-top: 1%;
+    margin-top: 3%;
 
 }
 
 #next-question {
 
-    margin-top: 1%;
+    margin-top: 2%;
 }
+
+#get-next-question {
+
+    background-color: #ffffff;
+    border-color: black;
+    border-radius: 5%;
+    border-style: solid;
+    border-width: .1em;
+    box-shadow: none;
+    text-shadow: none;
+    font-family: Courier;
+    font-size: 1em;
+    width: 10em;
+    height: 1.75em;
+}
+
+

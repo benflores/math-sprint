@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" /> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <link type="text/css" rel="stylesheet" href="stylesheet.css"/>
+        <title>math sprint</title>
+    </head>
+
+    <body>
+        <!--Display of question wording, equation, and expression-->
+        <div class="math-sprint-question">
+            <div id="pre-equation">if&nbsp;</div>
+            <div id="equation"></div>
+            <br/>
+            <div id="pre-expression">what is the value of&nbsp;</div>
+            <div id="expression"></div>
+            <div id="post-expression">&nbsp;?</div>
+        </div>
+
+        <!--Form/buttons used to display and submit multiple choice answers-->
+        <form id="answer-submit" action="javascript:console.log()">
+            <div class="answer-choice-row">
+                <input class="answer-choices" id="answer-a" name="answer-choice-button" type="submit" value=""/>
+                <input class="answer-choices" id="answer-b" name="answer-choice-button" type="submit" value=""/>
+                <input class="answer-choices" id="answer-c" name="answer-choice-button" type="submit" value=""/>
+                <input class="answer-choices" id="answer-d" name="answer-choice-button" type="submit" value=""/>
+            </div>
+        </form>
+        <!--Display of response to user answer and button to go to the next question-->
+        <div class="math-sprint-response">
+            <div id="user-answer"></div>
+            <div class="choice-response" id="incorrect-chosen" visibility: hidden></div>
+            <div class="choice-response" id="correct-chosen" visibility: hidden></div>
+            <form id="next-question" action="javascript:console.log()" visibility: hidden>
+                <input id="get-next-question" type="submit" value="next question" />
+            </form>
+        </div>
+
+        <script>
+            function shuffle(array) {
+                // Return an array shuffled in (pseudo)random order
+                // http://bost.ocks.org/mike/shuffle/
+                var counter = array.length, temp, index;
+                while (counter > 0) {
+                    index = Math.floor(Math.random() * counter);
+                    counter--;
+                    temp = array[counter];
+                    array[counter] = array[index];
+                    array[index] = temp;
+                }
+                return array;
+            };
+
+            function generateEquation() {
+                // Generate two random values to be used in the algebraic form:
+                // variable + setRandomX = setRandomY
+                var setRandomX = Math.floor(Math.random() * (21)) - 10;
+                var setRandomY = Math.floor(Math.random() * (21)) - 10;
+                return [setRandomX, setRandomY];
+            };
+
+            function generateExpression() {
+                // Generate two random values to be used in the algebraic form:
+                // (setRandomX * variable) + setRandomY
+                var setRandomX = Math.floor(Math.random() * (11)) - 5;
+                var setRandomY = Math.floor(Math.random() * (11)) - 5;
+                if ( setRandomX == 0 ) {
+                    setRandomX = 1;
+                }
+                return [setRandomX, setRandomY];
+            };
+
+            function generateQuestionVariable() {
+                // Generate a random letter to be used as the variable
+                var questionVariable = String.fromCharCode(Math.floor(Math.random() * (26)) + 97);
+                return questionVariable;
+            };
+
+            function generateRandomBinaryChoice() {
+                // Generate a random binary choice
+                // Used to determine equation order, display order for question
+                var randomBinaryChoice = Math.floor(Math.random() * (2)) - 1;
+                return randomBinaryChoice;
+            };
+
+            function chooseWrongVariableValue() {
+                // Generate a random value to choose between three initial mathematical mistakes to be used for wrong answer choices
+                var wrongVariableValue = Math.floor(Math.random() * (3)) - 0;
+                return wrongVariableValue;
+            };
+
+            function generateAnswerChoices(equationValueX, equationValueY, expressionValueX, expressionValueY) {
+                // Generate and return the values for the correct answer choice and three incorrect answer choices
+
+                // Define correct variable value
+                var correctVariableValue = equationValueY - equationValueX;
+
+                // Three options for initial mathematical mistakes calculating variable value
+                var wrongVariableValue1 = equationValueX + equationValueY;
+                var wrongVariableValue2 = correctVariableValue * (-1);
+                var wrongVariableValue3 = wrongVariableValue1 * (-1);
+
+                var wrongVariableValues = [wrongVariableValue1, wrongVariableValue2, wrongVariableValue3];
+
+                // Randomly choose one of the three mathematical mistakes for each choice 
+                var firstWrongVariableValueChoice = chooseWrongVariableValue();
+                var nextWrongVariableValueChoice = chooseWrongVariableValue();
+                var lastWrongVariableValueChoice = chooseWrongVariableValue();
+
+                // Generate each wrong answer choice by manipulating the chosen mathematical mistake in one of three ways
+                // TODO: wrong answer choices are sometimes identical (fix)
+                var choice1 = (wrongVariableValues[firstWrongVariableValueChoice] * expressionValueX) + expressionValueY;
+                var choice2 = (wrongVariableValues[nextWrongVariableValueChoice] * expressionValueX) + expressionValueY;
+                var choice3 = lastWrongVariableValueChoice;
+
+                // Define correct answer for value of expression
+                var correctAnswer = (expressionValueX * correctVariableValue) + expressionValueY;
+
+                return [correctAnswer, choice1, choice2, choice3];
+            };
+
+            function createQuestionDisplay(equationValueX, equationValueY, expressionValueX, expressionValueY) {
+                // Create the display of the equation and expression to be used in the question based on random values
+                questionVariable = generateQuestionVariable();
+                var equationOrder = generateRandomBinaryChoice();
+
+                if ( equationOrder == 1 ) {
+                    // Depending on the equationOrder value (1 or 2), place the algebriac variable on the left of the right of the expression that is used in the equation
+                    if ( equationValueX > 0 ) {
+                        // Depending on the signage of equationValueX (which is added to the variable), display the operator that makes visual sense (e.g. do not show the expression x + -4, but instead show x - 4)
+                        var questionEquation = questionVariable + " + " + equationValueX
+                    }
+                    else if ( equationValueX < 0 ) {
+                        var questionEquation = questionVariable + " - " + Math.abs(equationValueX)
+                    }
+                    else {
+                        var questionEquation = questionVariable
+                    }
+                }
+                else {
+                    if ( equationValueX == 0 ) {
+                        var questionEquation = questionVariable
+                        
+                    }
+                    else {
+                        var questionEquation = equationValueX + " + " + questionVariable
+                    }
+                }
+
+                if ( expressionValueX == 1 ) {
+                    // Depending on the signage/value of expressionValueX, which is a coefficient, place the correct sign and value in front of the algebraic variable
+                    if ( expressionValueY > 0) {
+                        // Depending on the signage of expressionValueY, which is an integer added to the algebraic variable, display the operator that makes visual sense (e.g. do not show the expression 2x + -4, but instead show 2x - 4)
+                        var questionExpression = questionVariable + " + " + expressionValueY;
+                    }
+                    else if ( expressionValueY < 0) {
+                        var questionExpression = questionVariable + " - " + Math.abs(expressionValueY);
+                    }
+                    else {
+                        var questionExpression = questionVariable;
+                    }
+                }
+                else if ( expressionValueX == (-1) ) {
+                    if ( expressionValueY > 0) {
+                        var questionExpression = "-" + questionVariable + " + " + expressionValueY;
+                    }
+                    else if ( expressionValueY < 0) {
+                        var questionExpression = "-" + questionVariable + " - " + Math.abs(expressionValueY);
+                    }
+                    else {
+                        var questionExpression = "-" + questionVariable;
+                    }
+                }
+                else {
+                    if ( expressionValueY > 0) {
+                        var questionExpression = expressionValueX + questionVariable + " + " + expressionValueY;
+                    }
+                    else if ( expressionValueY < 0) {
+                        var questionExpression = expressionValueX + questionVariable + " - " + Math.abs(expressionValueY);
+                    }
+                    else {
+                        var questionExpression = expressionValueX + questionVariable;
+                    }
+                }
+
+                return [questionEquation, questionExpression];
+            };
+
+            function displayQuestion() {
+                // Call functions to generate values, answer choices, and display order for question, then display question in HTML elements
+
+                // Get random values to be used in the first expression inside of the equation
+                var equationValues = generateEquation();
+                var equationValueX = equationValues[0];
+                var equationValueY = equationValues[1];
+
+                // Get random values to be used in the second expression for the question
+                var expressionValues = generateExpression();
+                var expressionValueX = expressionValues[0];
+                var expressionValueY = expressionValues[1];
+
+                // Based on the equation and expression values, generate correct and incorrect multiple choice answers
+                var answerChoices = generateAnswerChoices(equationValueX, equationValueY, expressionValueX, expressionValueY);
+
+                correctAnswer = answerChoices[0];
+
+                // Shuffle the order of the answer choices and assign to button elements
+                var testAnswers = [answerChoices[0], answerChoices[1], answerChoices[2], answerChoices[3]];
+                var shuffledArray = shuffle(testAnswers);
+                $( "#answer-a" ).val( shuffledArray[0] );
+                $( "#answer-b" ).val( shuffledArray[1] );
+                $( "#answer-c" ).val( shuffledArray[2] );
+                $( "#answer-d" ).val( shuffledArray[3] );
+
+                // Create the display of the equation and expression to be used in the question based on random values
+                var questionEquationExpression = createQuestionDisplay(equationValueX, equationValueY, expressionValueX, expressionValueY);
+                var questionEquation = questionEquationExpression[0];
+                var questionExpression = questionEquationExpression[1];
+
+                // Get random binary choice to determine order of display
+                var displayOrder = generateRandomBinaryChoice();
+
+                if ( displayOrder == 1 ) {
+                    // Based on value of displayOrder, place expression on either left or right of equation
+                    $( "#equation" ).html( questionEquation + " = " + equationValueY + ",").show();
+                    $( "#expression" ).html( questionExpression).show();
+                }
+                else {
+                    $( "#equation" ).html( equationValueY + " = " + questionEquation + ",").show();
+                    $( "#expression" ).html( questionExpression).show();
+                }
+            };
+
+            // Display a question on page load to initialize the app
+            // TODO: determine if this should live in a document-ready jQuery method
+            displayQuestion();
+            
+            $( ".answer-choices" ).on('click', function () {
+                // Listen for user to click one of the answer choices
+                // Display correct/incorrect answer text based on whether value of answer selected is correct
+                var chosenAnswer = $(this).val();
+                $( this ).addClass( "selected" );
+                if ( chosenAnswer == correctAnswer ) {
+                    $( "#correct-chosen" ).text( correctAnswer + " is the correct answer!").fadeIn(200);
+                }
+                else {
+                   $( "#incorrect-chosen" ).text( chosenAnswer + " is not the correct answer.").fadeIn(200); 
+                   $( "#correct-chosen" ).text( correctAnswer + " is the correct answer.").fadeIn(200);
+                }
+                // Display button to show the next question when user answers current question
+                $( "#next-question" ).fadeIn(200);
+                return;
+            });
+
+            $( "#next-question" ).submit(function () {
+                // When the user clicks "next question", fade out the response text and the current question
+                $( "#incorrect-chosen" ).fadeOut(300);
+                $( "#correct-chosen" ).fadeOut(300);
+                $( "#answer-field" ).val("");
+                $( ".answer-choices" ).removeClass( "selected" );
+                // After the current question is faded out, display the next question and answer choices
+                $( ".math-sprint-question" ).fadeOut(300).promise().done(function () {
+                    displayQuestion();
+                    $( ".math-sprint-question" ).fadeIn(200);
+                });
+                $( "#next-question" ).hide();
+                return;
+            }); 
+
+        </script>
+    </body>
+</html>
