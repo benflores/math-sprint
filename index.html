@@ -270,8 +270,9 @@
             };
 
             // Display a question on page load to initialize the app
-            // TODO: determine if this should live in a document-ready jQuery method
-            displayQuestion();
+            $( document ).ready(function() {
+                displayQuestion();
+            });
             
             $( ".answer-choices" ).on('click', function () {
                 // Listen for user to click one of the answer choices
