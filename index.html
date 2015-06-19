@@ -80,7 +80,7 @@
             function generateRandomBinaryChoice() {
                 // Generate a random binary choice
                 // Used to determine equation order, display order for question
-                var randomBinaryChoice = Math.floor(Math.random() * (2)) - 1;
+                var randomBinaryChoice = Math.floor(Math.random() * (2)) - 0;
                 return randomBinaryChoice;
             };
 
@@ -103,17 +103,15 @@
 
                 var wrongVariableValues = [wrongVariableValue1, wrongVariableValue2, wrongVariableValue3];
 
-                // Randomly choose one of the three mathematical mistakes for each choice 
-                var firstWrongVariableValueChoice = chooseWrongVariableValue();
-                var nextWrongVariableValueChoice = chooseWrongVariableValue();
-                var lastWrongVariableValueChoice = chooseWrongVariableValue();
+                var shuffledWrongVariableValues = shuffle(wrongVariableValues);
 
                 // Generate each wrong answer choice by manipulating the chosen mathematical mistake in one of three ways
                 // TODO: wrong answer choices are sometimes identical (fix)
-                var choice1 = (wrongVariableValues[firstWrongVariableValueChoice] * expressionValueX) + expressionValueY;
-                var choice2 = (wrongVariableValues[nextWrongVariableValueChoice] * expressionValueX) + expressionValueY;
-                var choice3 = lastWrongVariableValueChoice;
-
+                // This bug was happening frequently due to the random selection of initial mathematical mistakes. That has been fixed by using all three mistakes and shuffling an array to randomize their order. However identical answers still appear sometimes when addends and coefficients happen to line up in certain ways (that I haven't strictly identified).
+                var choice1 = (shuffledWrongVariableValues[0] * expressionValueX) + expressionValueY;
+                var choice2 = (shuffledWrongVariableValues[1] * expressionValueX) + expressionValueY;
+                var choice3 = shuffledWrongVariableValues[2];
+                
                 // Define correct answer for value of expression
                 var correctAnswer = (expressionValueX * correctVariableValue) + expressionValueY;
 
@@ -124,9 +122,10 @@
                 // Create the display of the equation and expression to be used in the question based on random values
                 questionVariable = generateQuestionVariable();
                 var equationOrder = generateRandomBinaryChoice();
+                var expressionOrder = generateRandomBinaryChoice();
 
                 if ( equationOrder == 1 ) {
-                    // Depending on the equationOrder value (1 or 2), place the algebriac variable on the left of the right of the expression that is used in the equation
+                    // Depending on the equationOrder value (0 or 1), place the algebriac variable on the left of the right of the expression that is used in the equation
                     if ( equationValueX > 0 ) {
                         // Depending on the signage of equationValueX (which is added to the variable), display the operator that makes visual sense (e.g. do not show the expression x + -4, but instead show x - 4)
                         var questionEquation = questionVariable + " + " + equationValueX
@@ -148,43 +147,81 @@
                     }
                 }
 
-                if ( expressionValueX == 1 ) {
-                    // Depending on the signage/value of expressionValueX, which is a coefficient, place the correct sign and value in front of the algebraic variable
+                if ( expressionOrder == 1 ) {
+                    // Depending on the expressionOrder value (0 or 1), place the algebriac variable on the left of the right of the expression used at the end of the question
+                    // This construction places the variable first
+                    if ( expressionValueX == 1 ) {
+                        // Depending on the signage/value of expressionValueX, which is a coefficient, place the correct sign and value in front of the algebraic variable
+                        var variableWithCoefficient = questionVariable;
+                    }
+                    else if ( expressionValueX == (-1) ) {
+                        var variableWithCoefficient = "-" + questionVariable;
+                    }
+                    else {
+                        var variableWithCoefficient = expressionValueX + questionVariable;
+                    }
+
                     if ( expressionValueY > 0) {
                         // Depending on the signage of expressionValueY, which is an integer added to the algebraic variable, display the operator that makes visual sense (e.g. do not show the expression 2x + -4, but instead show 2x - 4)
-                        var questionExpression = questionVariable + " + " + expressionValueY;
+                        var questionExpression = variableWithCoefficient + " + " + expressionValueY;
                     }
                     else if ( expressionValueY < 0) {
-                        var questionExpression = questionVariable + " - " + Math.abs(expressionValueY);
+                        var questionExpression = variableWithCoefficient + " - " + Math.abs(expressionValueY);
                     }
                     else {
-                        var questionExpression = questionVariable;
+                        var questionExpression = variableWithCoefficient;
                     }
-                }
-                else if ( expressionValueX == (-1) ) {
-                    if ( expressionValueY > 0) {
-                        var questionExpression = "-" + questionVariable + " + " + expressionValueY;
-                    }
-                    else if ( expressionValueY < 0) {
-                        var questionExpression = "-" + questionVariable + " - " + Math.abs(expressionValueY);
-                    }
-                    else {
-                        var questionExpression = "-" + questionVariable;
-                    }
-                }
-                else {
-                    if ( expressionValueY > 0) {
-                        var questionExpression = expressionValueX + questionVariable + " + " + expressionValueY;
-                    }
-                    else if ( expressionValueY < 0) {
-                        var questionExpression = expressionValueX + questionVariable + " - " + Math.abs(expressionValueY);
-                    }
-                    else {
-                        var questionExpression = expressionValueX + questionVariable;
-                    }
+
+                    return [questionEquation, questionExpression];
                 }
 
-                return [questionEquation, questionExpression];
+                else {
+                    // This construction places the variable last
+                    if ( expressionValueX == 1 ) {
+                        var variableWithCoefficient = questionVariable;
+                        if ( expressionValueY == 0 ) {
+                            var questionExpression = variableWithCoefficient;
+                        }
+                        else {
+                            var questionExpression = expressionValueY + " + " + variableWithCoefficient;
+                        }
+                    }
+                    else if ( expressionValueX == (-1) ) {
+                        var variableWithCoefficient = questionVariable;
+                        if ( expressionValueY > 0) {
+                            var questionExpression = expressionValueY + " - " + variableWithCoefficient;
+                        }
+                        else if ( expressionValueY < 0) {
+                            var questionExpression = expressionValueY + " - " + variableWithCoefficient;
+                        }
+                        else {
+                            var questionExpression = "-" + variableWithCoefficient;
+                        }
+                    }
+                    else if ( expressionValueX < (-1) ) {
+                        var variableWithCoefficient = Math.abs(expressionValueX) + questionVariable;
+                        if ( expressionValueY > 0) {
+                            var questionExpression = expressionValueY + " - " + variableWithCoefficient;
+                        }
+                        else if ( expressionValueY < 0) {
+                            var questionExpression = expressionValueY + " - " + variableWithCoefficient;
+                        }
+                        else {
+                            var questionExpression = "-" + variableWithCoefficient;
+                        }
+                    }
+                    else {
+                        var variableWithCoefficient = expressionValueX + questionVariable;
+                        if ( expressionValueY == 0 ) {
+                            var questionExpression = variableWithCoefficient;
+                        }
+                        else {
+                            var questionExpression = expressionValueY + " + " + variableWithCoefficient;
+                        }
+                    }
+
+                    return [questionEquation, questionExpression];
+                }
             };
 
             function displayQuestion() {
@@ -207,11 +244,11 @@
 
                 // Shuffle the order of the answer choices and assign to button elements
                 var testAnswers = [answerChoices[0], answerChoices[1], answerChoices[2], answerChoices[3]];
-                var shuffledArray = shuffle(testAnswers);
-                $( "#answer-a" ).val( shuffledArray[0] );
-                $( "#answer-b" ).val( shuffledArray[1] );
-                $( "#answer-c" ).val( shuffledArray[2] );
-                $( "#answer-d" ).val( shuffledArray[3] );
+                var shuffledTestAnswers = shuffle(testAnswers);
+                $( "#answer-a" ).val( shuffledTestAnswers[0] );
+                $( "#answer-b" ).val( shuffledTestAnswers[1] );
+                $( "#answer-c" ).val( shuffledTestAnswers[2] );
+                $( "#answer-d" ).val( shuffledTestAnswers[3] );
 
                 // Create the display of the equation and expression to be used in the question based on random values
                 var questionEquationExpression = createQuestionDisplay(equationValueX, equationValueY, expressionValueX, expressionValueY);
