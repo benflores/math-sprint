@@ -2,6 +2,7 @@ body {
 
     font-family: Courier;
     text-align: center;
+    background-image: url('https://testive-v3.s3.amazonaws.com/images/cloud_background.png');
 }
 
 .math-sprint-response {
@@ -11,18 +12,18 @@ body {
 
 .answer-choices {
 
-    background-color: #ffffff;
-    border-color: black;
+    background-color: #dedede;
     border-radius: 10%;
-    border-style: solid;
-    border-width: .1em;
+    border-width: 0px;
     box-shadow: none;
     text-shadow: none;
     font-family: Courier;
     font-size: 1em;
     width: 4em;
     height: 2em;
-}
+    margin-left: .3%;
+    margin-right: .3%;
+} 
 
 .answer-choice-row {
 
@@ -41,7 +42,7 @@ body {
 
 #pre-equation {
 
-    margin-top: 10%;
+    margin-top: 8.5%;
     font-size: 1.5em;
     line-height: 1.4em;
     display: inline-block;
@@ -49,9 +50,9 @@ body {
 
 #equation {
 
-    margin-top: 10%;
-    font-family: "Computer-Modern", "Tex", serif;
-    font-size: 2em;
+    margin-top: 8.5%;
+    font-family: "Tex", serif;
+    font-size: 1.9em;
     font-style: italic;
     line-height: 1.4em;
     display: inline-block;
@@ -68,8 +69,8 @@ body {
 #expression {
 
     margin-top: 1%;
-    font-family: "Computer-Modern", "Tex", serif;
-    font-size: 2em;
+    font-family: "Tex", serif;
+    font-size: 1.9em;
     font-style: italic;
     line-height: 1.4em;
     display: inline-block;
@@ -78,8 +79,7 @@ body {
 #post-expression {
 
     margin-top: 1%;
-    font-family: Courier;
-    font-size: 2em;
+    font-size: 1.5em;
     line-height: 1.4em;
     display: inline-block;
 }
@@ -110,4 +110,15 @@ body {
     height: 1.75em;
 }
 
+#question-answer-container {
+    background-color: #ffffff;
+    border-radius: 2%;
+    width: 50%;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+    padding-bottom: 3%;
+    display: block;
+}
 
