@@ -7,7 +7,7 @@ body {
 
 .math-sprint-response {
 
-    margin-top: 3%;
+    margin-top: 4%;
 }
 
 .answer-choices {
@@ -32,7 +32,7 @@ body {
 
 .choice-response {
 
-    margin-top: .5em;
+    margin-top: 1%;
 }
 
 .selected {
@@ -92,7 +92,7 @@ body {
 
 #next-question {
 
-    margin-top: 2%;
+    margin-top: 3%;
 }
 
 #get-next-question {
