@@ -1,6 +1,6 @@
 body {
 
-    font-family: Courier;
+    font-family: 'Helvetica-Neue', 'Arial', sans-serif;
     text-align: center;
     background-image: url('https://testive-v3.s3.amazonaws.com/images/cloud_background.png');
 }
@@ -17,7 +17,7 @@ body {
     border-width: 0px;
     box-shadow: none;
     text-shadow: none;
-    font-family: Courier;
+    font-family: 'Helvetica-Neue', 'Arial', sans-serif;
     font-size: 1em;
     width: 4em;
     height: 2em;
@@ -37,7 +37,7 @@ body {
 
 .selected {
 
-    background-color: #e6e6e6;
+    background-color: #B3B3B3;
 }
 
 #pre-equation {
@@ -99,12 +99,11 @@ body {
 
     background-color: #ffffff;
     border-color: black;
-    border-radius: 5%;
     border-style: solid;
     border-width: .1em;
     box-shadow: none;
     text-shadow: none;
-    font-family: Courier;
+    font-family: 'Helvetica-Neue', 'Arial', sans-serif;
     font-size: 1em;
     width: 10em;
     height: 1.75em;
