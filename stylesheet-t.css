@@ -1,6 +1,8 @@
 body {
 
-    font-family: 'Helvetica-Neue', 'Arial', sans-serif;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 300;
+
     text-align: center;
     background-image: url('https://testive-v3.s3.amazonaws.com/images/cloud_background.png');
 }
@@ -17,7 +19,8 @@ body {
     border-width: 0px;
     box-shadow: none;
     text-shadow: none;
-    font-family: 'Helvetica-Neue', 'Arial', sans-serif;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 300;
     font-size: 1em;
     width: 4em;
     height: 2em;
@@ -44,6 +47,7 @@ body {
 
     margin-top: 8.5%;
     font-size: 1.5em;
+    font-weight: 300;
     line-height: 1.4em;
     display: inline-block;
 }
@@ -53,6 +57,7 @@ body {
     margin-top: 8.5%;
     font-family: "Tex", serif;
     font-size: 1.9em;
+    font-weight: 300;
     font-style: italic;
     line-height: 1.4em;
     display: inline-block;
@@ -62,6 +67,7 @@ body {
 
     margin-top: 1%;
     font-size: 1.5em;
+    font-weight: 300;
     line-height: 1.4em;
     display: inline-block;
 }
@@ -71,6 +77,7 @@ body {
     margin-top: 1%;
     font-family: "Tex", serif;
     font-size: 1.9em;
+    font-weight: 300;
     font-style: italic;
     line-height: 1.4em;
     display: inline-block;
@@ -80,6 +87,7 @@ body {
 
     margin-top: 1%;
     font-size: 1.5em;
+    font-weight: 300;
     line-height: 1.4em;
     display: inline-block;
 }
@@ -103,7 +111,8 @@ body {
     border-width: .1em;
     box-shadow: none;
     text-shadow: none;
-    font-family: 'Helvetica-Neue', 'Arial', sans-serif;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 300;
     font-size: 1em;
     width: 10em;
     height: 1.75em;
