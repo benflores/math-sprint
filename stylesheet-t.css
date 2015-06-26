@@ -1,0 +1,130 @@
+body {
+
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 300;
+
+    text-align: center;
+    background-image: url('https://testive-v3.s3.amazonaws.com/images/cloud_background.png');
+}
+
+.math-sprint-response {
+
+    margin-top: 4%;
+}
+
+.answer-choices {
+
+    background-color: #dedede;
+    border-radius: 10%;
+    border-width: 0px;
+    box-shadow: none;
+    text-shadow: none;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+    width: 4em;
+    height: 2em;
+    margin-left: .3%;
+    margin-right: .3%;
+} 
+
+.answer-choice-row {
+
+    text-align: center;
+}
+
+.choice-response {
+
+    margin-top: 1%;
+}
+
+.selected {
+
+    background-color: #B3B3B3;
+}
+
+#pre-equation {
+
+    margin-top: 8.5%;
+    font-size: 1.5em;
+    font-weight: 300;
+    line-height: 1.4em;
+    display: inline-block;
+}
+
+#equation {
+
+    margin-top: 8.5%;
+    font-family: "Tex", serif;
+    font-size: 1.9em;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4em;
+    display: inline-block;
+}
+
+#pre-expression {
+
+    margin-top: 1%;
+    font-size: 1.5em;
+    font-weight: 300;
+    line-height: 1.4em;
+    display: inline-block;
+}
+
+#expression {
+
+    margin-top: 1%;
+    font-family: "Tex", serif;
+    font-size: 1.9em;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.4em;
+    display: inline-block;
+}
+
+#post-expression {
+
+    margin-top: 1%;
+    font-size: 1.5em;
+    font-weight: 300;
+    line-height: 1.4em;
+    display: inline-block;
+}
+
+#answer-submit {
+
+    margin-top: 3%;
+
+}
+
+#next-question {
+
+    margin-top: 3%;
+}
+
+#get-next-question {
+
+    background-color: #ffffff;
+    border-color: black;
+    border-style: solid;
+    border-width: .1em;
+    box-shadow: none;
+    text-shadow: none;
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+    width: 10em;
+    height: 1.75em;
+}
+
+#question-answer-container {
+    background-color: #ffffff;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+    padding-bottom: 3%;
+    display: block;
+}
+
